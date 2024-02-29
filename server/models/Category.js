@@ -22,7 +22,6 @@ const CategorySchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    products: [String],
   },
   { timestamps: true }
 );

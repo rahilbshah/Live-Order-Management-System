@@ -1,16 +1,30 @@
 import React from 'react';
 import Menu from '../Menu/Menu';
 import CartIcon from '../CartIcon/CartIcon';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../redux/actions/loginActions';
+import { toastAction } from '../../utils/toastAction';
 
 const Navbar = () => {
-  const user = false;
+  const { user } = useSelector(state => state.user);
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    try {
+      dispatch(logout());
+      toastAction.success('Logout Successfully');
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="h-12 text-red-500 p-4 flex items-center justify-between border-b-2 border-b-red-500 uppercase md:h-24 lg:px-20 xl:px-40">
       {/* LEFT LINKS */}
       <div className="hidden md:flex gap-4 flex-1">
         <Link to="/">Homepage</Link>
         <Link to="/menu">Menu</Link>
+        {user && <Link to="/orders">Orders</Link>}
       </div>
       {/* LOGO */}
       <div className="text-xl md:font-bold flex-1 md:text-center">Massimo</div>
@@ -27,7 +41,11 @@ const Navbar = () => {
         {!user ? (
           <Link to="/login">Login</Link>
         ) : (
-          <Link to="/orders">Orders</Link>
+          <>
+            <button className="cursor-pointer" onClick={handleLogout}>
+              LOGOUT
+            </button>
+          </>
         )}
         <CartIcon />
       </div>

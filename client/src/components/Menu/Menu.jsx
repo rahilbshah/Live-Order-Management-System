@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import CartIcon from '../CartIcon/CartIcon';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Menu = () => {
   const [open, setOpen] = useState(false);
 
-  // TEMPORARY
-  const user = false;
+  const { user } = useSelector(state => state.user);
+
   const links = [
     { id: 1, title: 'Homepage', url: '/' },
     { id: 2, title: 'Menu', url: '/menu' },

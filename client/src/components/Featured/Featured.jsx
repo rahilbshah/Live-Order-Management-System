@@ -1,13 +1,25 @@
-import React from 'react';
-import { featuredProducts } from '../../constant';
-
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 const Featured = () => {
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get('/api/product');
+        if (res.data) setFeaturedProducts(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
   return (
     <div className="w-screen overflow-x-scroll text-red-500">
       <div className="w-max flex">
-        {featuredProducts.map(item => (
+        {featuredProducts.map((item, index) => (
           <div
-            key={item.id}
+            key={index}
             className="w-screen h-[100vh] flex flex-col items-center justify-around p-4 hover:bg-fuchsia-50 transition-all duration-300 md:w-[50vw] xl:w-[33vw] xl:h-[90vh]"
           >
             {item.img && (

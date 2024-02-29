@@ -13,6 +13,8 @@ import Product from './pages/Product/Product';
 import Login from './pages/Login/Login';
 import Orders from './pages/Orders/Orders';
 import Register from './pages/Register/Register';
+import { Slide, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -29,6 +31,20 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/orders" element={<Orders />} />
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Slide}
+        className={'text-[14px] font-bold'}
+      />
       <Footer />
     </Router>
   );
