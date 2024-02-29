@@ -3,7 +3,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toastAction } from '../../utils/toastAction';
 import { useNavigate } from 'react-router-dom';
-import { removeCart } from '../../store/cart-slice/cartSlice';
+import { deleteItem, removeCart } from '../../store/cart-slice/cartSlice';
 
 const Cart = () => {
   const { cartItems, totalAmount, totalQuantity } = useSelector(
@@ -48,18 +48,31 @@ const Cart = () => {
       console.log(error);
     }
   };
+  const handleRemoveItem = id => {
+    console.log(id);
+    dispatch(deleteItem(id));
+  };
   return (
     <div className="h-[calc(100vh-6rem)] md:h-[calc(100vh-9rem)] flex flex-col text-red-500 lg:flex-row">
       <div className="h-1/2 p-4 flex flex-col justify-center overflow-scroll lg:h-full lg:w-2/3 2xl:w-1/2 lg:px-20 xl:px-40">
         {cartItems.map((item, index) => (
           <div key={index} className="flex items-center justify-between mb-4">
-            <img src={item.img} alt="" width={100} height={100} />
-            <div className="">
+            <div className="flex items-center ">
+              <img src={item.img} alt="" width={100} height={100} />
+            </div>
+            <div className="flex flex-col items-center">
               <h1 className="uppercase text-xl font-bold">{item.title}</h1>
               <span>{item.optionName}</span>
             </div>
-            <h2 className="font-bold">{item.price?.toFixed(2)}</h2>
-            <span className="cursor-pointer">X</span>
+            <div className="flex items-center gap-10">
+              <h2 className="font-bold">{`${item.price?.toFixed(2)} * ${item.quantity}`}</h2>
+              <span
+                className="cursor-pointer"
+                onClick={() => handleRemoveItem(item.id)}
+              >
+                X
+              </span>
+            </div>
           </div>
         ))}
       </div>
@@ -82,8 +95,9 @@ const Cart = () => {
           <span className="font-bold">${totalAmount?.toFixed(2)}</span>
         </div>
         <button
-          className="bg-red-500 text-white p-3 rounded-md w-1/2 self-end"
+          className="bg-red-500 text-white p-3 rounded-md w-1/2 self-end disabled:bg-slate-400 disabled:cursor-not-allowed"
           onClick={handleCheckout}
+          disabled={totalAmount === 0}
         >
           CHECKOUT
         </button>

@@ -59,7 +59,7 @@ const Orders = () => {
               <td className="hidden md:block py-6 px-1">
                 {convertProductString(order.products)}
               </td>
-              {user.isAdmin ? (
+              {user?.isAdmin ? (
                 <td>
                   <form
                     className="flex items-center justify-center gap-2"

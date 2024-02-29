@@ -15,6 +15,7 @@ import Orders from './pages/Orders/Orders';
 import Register from './pages/Register/Register';
 import { Slide, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AddProduct from './pages/AddProduct/AddProduct';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/add-product" element={<AddProduct />} />
       </Routes>
       <ToastContainer
         position="top-right"
