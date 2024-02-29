@@ -12,6 +12,7 @@ import Category from './pages/Category/Category';
 import Product from './pages/Product/Product';
 import Login from './pages/Login/Login';
 import Orders from './pages/Orders/Orders';
+import Register from './pages/Register/Register';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/menu/:category" element={<Category />} />
         <Route path="/product/:id" element={<Product />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/orders" element={<Orders />} />
       </Routes>
       <Footer />
