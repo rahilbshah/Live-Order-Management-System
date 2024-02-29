@@ -3,12 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { toastAction } from '../../utils/toastAction';
+import { convertProductString } from '../../utils/objectStringify';
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [status, setStatus] = useState('');
   const navigate = useNavigate();
   const { user } = useSelector(state => state.user);
+  console.log(orders);
   useEffect(() => {
     const fetchCatProducts = async () => {
       try {
@@ -33,6 +35,7 @@ const Orders = () => {
       console.log(error);
     }
   };
+  if (!user) return 'Loading';
   return (
     <div className="p-4 lg:px-10 xl:px-20">
       <table className="w-full border-separate border-spacing-3">
@@ -54,12 +57,12 @@ const Orders = () => {
               </td>
               <td className="py-6 px-1">{order.price}</td>
               <td className="hidden md:block py-6 px-1">
-                {order.products[0].title}
+                {convertProductString(order.products)}
               </td>
               {user.isAdmin ? (
                 <td>
                   <form
-                    className="flex items-center justify-center gap-4"
+                    className="flex items-center justify-center gap-2"
                     onSubmit={e => handleUpdate(e, order._id)}
                   >
                     <input

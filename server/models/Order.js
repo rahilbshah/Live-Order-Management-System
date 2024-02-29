@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { ProductSchema } from "./Product.js";
 const OrderSchema = new mongoose.Schema(
   {
     status: {
@@ -14,22 +13,22 @@ const OrderSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    products:  [{
-      title: {
-        type: String,
-        required: true,
+    products: [
+      {
+        title: {
+          type: String,
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+        },
+        optionsName:{
+          type: [String],
+          required: true,
+        }
       },
-      img: {
-        type: String,
-      },
-      price: {
-        type: Number,
-        required: true,
-      },
-      options: [{
-        title: String,
-      }]
-    }],
+    ],
   },
   { timestamps: true }
 );

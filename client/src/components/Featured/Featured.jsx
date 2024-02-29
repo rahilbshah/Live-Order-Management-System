@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { addItem } from '../../store/cart-slice/cartSlice';
 const Featured = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   useEffect(() => {
@@ -14,6 +16,22 @@ const Featured = () => {
 
     fetchProducts();
   }, []);
+  const dispatch = useDispatch();
+
+  const handleClick = id => {
+    const product = featuredProducts.find(product => product._id === id);
+    const { title, img, quantity, price, options } = product;
+    dispatch(
+      addItem({
+        id,
+        title,
+        img,
+        quantity,
+        price,
+        optionName: options[0].title,
+      }),
+    );
+  };
   return (
     <div className="w-screen overflow-x-scroll text-red-500">
       <div className="w-max flex">
@@ -37,7 +55,10 @@ const Featured = () => {
               </h1>
               <p className="p-4 2xl:p-8">{item.desc}</p>
               <span className="text-xl font-bold">${item.price}</span>
-              <button className="bg-red-500 text-white p-2 rounded-md">
+              <button
+                className="bg-red-500 text-white p-2 rounded-md"
+                onClick={() => handleClick(item._id)}
+              >
                 Add to Cart
               </button>
             </div>

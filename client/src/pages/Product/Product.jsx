@@ -37,11 +37,7 @@ const Product = () => {
           {product.title}
         </h1>
         <p>{product.desc}</p>
-        <Price
-          price={product.price}
-          id={product._id}
-          options={product.options}
-        />
+        <Price product={product} />
       </div>
     </div>
   );

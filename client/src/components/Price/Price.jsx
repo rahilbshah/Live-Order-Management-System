@@ -1,14 +1,30 @@
 import React, { useEffect, useState } from 'react';
-const Price = ({ price, id, options }) => {
+import { useDispatch } from 'react-redux';
+import { addItem } from '../../store/cart-slice/cartSlice';
+const Price = ({ product }) => {
+  const { _id: id, title, img, price, options } = product;
   const [total, setTotal] = useState(price);
   const [quantity, setQuantity] = useState(1);
   const [selected, setSelected] = useState(0);
-
   useEffect(() => {
     setTotal(
       quantity * (options ? price + options[selected].additionalPrice : price),
     );
   }, [quantity, selected, options, price]);
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    dispatch(
+      addItem({
+        id,
+        title,
+        img,
+        quantity,
+        price: total,
+        optionName: options[selected].title,
+      }),
+    );
+  };
   return (
     <div className="flex flex-col gap-4">
       <h2 className="text-2xl font-bold">${total && total.toFixed(2)}</h2>
@@ -44,7 +60,10 @@ const Price = ({ price, id, options }) => {
             </button>
           </div>
         </div>
-        <button className="uppercase w-56 bg-red-500 text-white p-3 ring-1 ring-red-500">
+        <button
+          className="uppercase w-56 bg-red-500 text-white p-3 ring-1 ring-red-500"
+          onClick={handleClick}
+        >
           Add to Cart
         </button>
       </div>

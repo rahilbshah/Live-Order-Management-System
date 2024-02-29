@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { loginUser } from '../../redux/actions/loginActions';
 import { useDispatch } from 'react-redux';
 import { toastAction } from '../../utils/toastAction';
+import {
+  loginFailure,
+  loginRequest,
+  loginSuccess,
+} from '../../store/user-slice/userSlice';
+import axios from 'axios';
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -21,15 +26,18 @@ const Login = () => {
   };
   const handleSubmit = async e => {
     e.preventDefault();
+    dispatch(loginRequest());
     try {
-      const response = await dispatch(loginUser(credentials));
+      const response = await axios.post('/api/auth/login', credentials);
       if (response && response.status === 200) {
+        dispatch(loginSuccess(response.data.details));
         toastAction.success(response.data.message);
         setTimeout(() => {
           navigate('/');
         }, 3000);
       }
     } catch (error) {
+      dispatch(loginFailure(error.message));
       console.error('Login error:', error);
     }
   };
