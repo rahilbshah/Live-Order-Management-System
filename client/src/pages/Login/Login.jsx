@@ -37,8 +37,9 @@ const Login = () => {
         }, 3000);
       }
     } catch (error) {
+      toastAction.error(error.response.data.error);
+      console.error('rahil', error);
       dispatch(loginFailure(error.message));
-      console.error('Login error:', error);
     }
   };
   return (

@@ -3,6 +3,7 @@ import { singleProduct } from '../../constant';
 import Price from '../../components/Price/Price';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import DeleteButton from '../../components/DeleteButton/DeleteButton';
 
 const Product = () => {
   const [product, setProduct] = useState({});
@@ -33,8 +34,9 @@ const Product = () => {
         </div>
       )}
       <div className="h-1/2 flex flex-col gap-4 md:h-[70%] md:justify-center md:gap-6 xl:gap-8">
-        <h1 className="text-3xl font-bold uppercase xl:text-5xl">
-          {product.title}
+        <h1 className="text-3xl font-bold uppercase xl:text-5xl flex items-center">
+          <span> {product.title} </span>
+          <DeleteButton id={id} />
         </h1>
         <p>{product.desc}</p>
         <Price product={product} />

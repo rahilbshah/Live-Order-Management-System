@@ -9,47 +9,51 @@ const Cart = () => {
   const { cartItems, totalAmount, totalQuantity } = useSelector(
     state => state.cart,
   );
+  const { user } = useSelector(state => state.user);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleCheckout = async () => {
-    try {
-      let products = [];
+    if (user) {
+      try {
+        let products = [];
 
-      cartItems.forEach(item => {
-        const existingProductIndex = products.findIndex(
-          product => product.title === item.title,
-        );
+        cartItems.forEach(item => {
+          const existingProductIndex = products.findIndex(
+            product => product.title === item.title,
+          );
 
-        if (existingProductIndex !== -1) {
-          products[existingProductIndex].optionsName.push(item.optionName);
-        } else {
-          products.push({
-            title: item.title,
-            quantity: item.quantity,
-            optionsName: [item.optionName],
-          });
+          if (existingProductIndex !== -1) {
+            products[existingProductIndex].optionsName.push(item.optionName);
+          } else {
+            products.push({
+              title: item.title,
+              quantity: item.quantity,
+              optionsName: [item.optionName],
+            });
+          }
+        });
+        const res = await axios.post(`/api/order`, {
+          status: 'In Progress',
+          price: totalAmount,
+          products,
+        });
+        if (res && res.status === 201) {
+          toastAction.success(res.data.message);
+          dispatch(removeCart());
+          setTimeout(() => {
+            navigate('/orders');
+          }, 3000);
         }
-      });
-      const res = await axios.post(`/api/order`, {
-        status: 'In Progress',
-        price: totalAmount,
-        products,
-      });
-      if (res && res.status === 201) {
-        toastAction.success(res.data.message);
-        dispatch(removeCart());
-        setTimeout(() => {
-          navigate('/orders');
-        }, 3000);
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
+    } else {
+      navigate('/login');
     }
   };
   const handleRemoveItem = id => {
-    console.log(id);
     dispatch(deleteItem(id));
   };
   return (

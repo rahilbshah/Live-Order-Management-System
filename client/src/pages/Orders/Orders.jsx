@@ -10,7 +10,6 @@ const Orders = () => {
   const [status, setStatus] = useState('');
   const navigate = useNavigate();
   const { user } = useSelector(state => state.user);
-  console.log(orders);
   useEffect(() => {
     const fetchCatProducts = async () => {
       try {

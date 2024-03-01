@@ -15,12 +15,10 @@ export const register = async (req, res) => {
     const newUser = new User({ ...req.body, password: hash });
     const savedUser = await newUser.save();
     const { password, isAdmin, ...otherDetails } = savedUser._doc;
-    return res
-      .status(201)
-      .json({
-        details: otherDetails,
-        message: "Registration successful! Welcome aboard!",
-      });
+    return res.status(201).json({
+      details: otherDetails,
+      message: "Registration successful! Welcome aboard!",
+    });
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -48,12 +46,15 @@ export const login = async (req, res) => {
             httpOnly: true,
           })
           .status(200)
-          .json({ details:otherDetails,message:"Welcome back! You are now logged in." });
+          .json({
+            details: otherDetails,
+            message: "Welcome back! You are now logged in.",
+          });
       } else {
-        return res.status(400).json("Wrong Password");
+        return res.status(400).json({ error: "Wrong Password" });
       }
     } else {
-      return res.status(404).json("User Does not Exist");
+      return res.status(404).json({ error: "User Does not Exist" });
     }
   } catch (error) {
     return res.status(500).json(error);
