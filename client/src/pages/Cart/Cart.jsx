@@ -53,8 +53,8 @@ const Cart = () => {
       navigate('/login');
     }
   };
-  const handleRemoveItem = id => {
-    dispatch(deleteItem(id));
+  const handleRemoveItem = (id, optionName) => {
+    dispatch(deleteItem({ id, optionName }));
   };
   return (
     <div className="h-[calc(100vh-6rem)] md:h-[calc(100vh-9rem)] flex flex-col text-red-500 lg:flex-row">
@@ -72,7 +72,7 @@ const Cart = () => {
               <h2 className="font-bold">{`${item.price?.toFixed(2)} * ${item.quantity}`}</h2>
               <span
                 className="cursor-pointer"
-                onClick={() => handleRemoveItem(item.id)}
+                onClick={() => handleRemoveItem(item.id, item.optionName)}
               >
                 X
               </span>

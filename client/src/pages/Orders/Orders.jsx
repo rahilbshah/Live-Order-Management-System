@@ -16,7 +16,8 @@ const Orders = () => {
         const res = await axios.get(`/api/order`);
         if (res.data) setOrders(res.data);
       } catch (error) {
-        if (error.response.status === 401) navigate('/');
+        toastAction.error(error.response.data.message);
+        if (error.response.status === 401) navigate('/login');
         console.log(error);
       }
     };

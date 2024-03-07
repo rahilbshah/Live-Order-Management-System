@@ -20,7 +20,8 @@ const Price = ({ product }) => {
         title,
         img,
         quantity,
-        price: total,
+        price: options ? price + options[selected].additionalPrice : price,
+        totalPrice: total,
         optionName: options[selected].title,
       }),
     );
