@@ -47,3 +47,16 @@ export const getOrders = async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+export const deleteAllOrders = async (req, res) => {
+  try {
+    if (req.user.isAdmin) {
+      await Order.deleteMany();
+      return res.status(200).json({ message: "Delete all the colloection" });
+    } else {
+      return res.status(401).json({ error: "You are not authorized" });
+    }
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};

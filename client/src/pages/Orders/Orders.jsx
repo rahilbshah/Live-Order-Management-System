@@ -50,7 +50,10 @@ const Orders = () => {
         </thead>
         <tbody>
           {orders.map((order, index) => (
-            <tr key={index} className="text-sm md:text-base bg-red-50">
+            <tr
+              key={index}
+              className="text-sm md:text-base bg-red-50 text-center"
+            >
               <td className="hidden md:block py-6 px-1">{order._id}</td>
               <td className="py-6 px-1">
                 {order.createdAt.toString().slice(0, 10)}
